@@ -1,7 +1,7 @@
 package com.platform.movies.web.controller;
 
-import com.platform.movies.persistence.entity.MovieEntity;
-import com.platform.movies.persistence.repository.ICrudMovieEntity;
+import com.platform.movies.domain.dto.MovieDto;
+import com.platform.movies.domain.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,12 +18,12 @@ import java.util.List;
 @Tag(name = "movies", description = "Operations relashionship with movies")
 public class MovieController {
 
-    private  final ICrudMovieEntity crudMovieEntity;
+    private final MovieService movieService;
 
     @Operation(summary = "Get all movies")
     @ApiResponse(responseCode = "200", description = "OK")
     @GetMapping("/")
-    public List<MovieEntity> getAllMovies(){
-        return (List<MovieEntity>) crudMovieEntity.findAll();
+    public List<MovieDto> getAllMovies(){
+        return movieService.findAll();
     }
 }
