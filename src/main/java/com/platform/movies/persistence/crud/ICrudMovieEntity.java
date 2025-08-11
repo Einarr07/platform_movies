@@ -1,4 +1,4 @@
-package com.platform.movies.persistence.repository;
+package com.platform.movies.persistence.crud;
 
 import com.platform.movies.persistence.entity.MovieEntity;
 import org.springframework.data.repository.CrudRepository;
