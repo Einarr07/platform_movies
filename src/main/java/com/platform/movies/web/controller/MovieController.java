@@ -2,6 +2,7 @@ package com.platform.movies.web.controller;
 
 import com.platform.movies.domain.dto.MovieDto;
 import com.platform.movies.domain.dto.UpdateMovieDto;
+import com.platform.movies.domain.exception.MovieDontExistsExeption;
 import com.platform.movies.domain.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -78,10 +78,7 @@ public class MovieController {
             @Parameter(description = "Id the movie for delete", example = "2", required = true)
             @PathVariable long id
     ) {
-        if (movieService.deleteById(id)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        movieService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

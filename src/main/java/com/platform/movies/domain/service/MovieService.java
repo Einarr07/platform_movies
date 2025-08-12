@@ -31,11 +31,8 @@ public class MovieService {
         return movieRepository.update(id, updateMovieDto);
     }
 
-    public boolean deleteById(long id) {
-        return findById(id).map(movieDto -> {
-            movieRepository.deleteMovieById(id);
-            return true;
-        }).orElse(false);
+    public void deleteById(long id) {
+        movieRepository.deleteMovieById(id);
     }
 
 }
