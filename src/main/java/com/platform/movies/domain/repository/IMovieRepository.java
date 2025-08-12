@@ -14,7 +14,7 @@ public interface IMovieRepository {
 
     MovieDto save(MovieDto movieDto);
 
-    MovieDto update(long id, UpdateMovieDto updateMovieDto);
+    Optional<MovieDto> update(long id, UpdateMovieDto updateMovieDto);
 
     void deleteMovieById(long id);
 }

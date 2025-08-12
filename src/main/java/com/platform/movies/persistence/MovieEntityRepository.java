@@ -36,14 +36,11 @@ public class MovieEntityRepository implements IMovieRepository {
     }
 
     @Override
-    public MovieDto update(long id, UpdateMovieDto updateMovieDto) {
-        MovieEntity entityExistente = crudMovieEntity.findById(id).orElse(null);
-
-        if (entityExistente == null) return null;
-
-        movieMapper.updateEntityFromDto(updateMovieDto, entityExistente);
-
-        return movieMapper.toDto(crudMovieEntity.save(entityExistente));
+    public Optional<MovieDto> update(long id, UpdateMovieDto updateMovieDto) {
+        return crudMovieEntity.findById(id).map(entityExistente -> {
+            movieMapper.updateEntityFromDto(updateMovieDto, entityExistente);
+            return movieMapper.toDto(crudMovieEntity.save(entityExistente));
+        });
     }
 
     @Override

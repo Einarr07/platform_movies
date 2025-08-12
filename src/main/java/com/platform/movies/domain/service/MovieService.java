@@ -27,7 +27,7 @@ public class MovieService {
         return movieRepository.save(movieDto);
     }
 
-    public  MovieDto update(long id, UpdateMovieDto updateMovieDto) {
+    public  Optional<MovieDto> update(long id, UpdateMovieDto updateMovieDto) {
         return movieRepository.update(id, updateMovieDto);
     }
 

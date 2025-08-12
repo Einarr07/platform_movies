@@ -64,7 +64,8 @@ public class MovieController {
             @PathVariable long id,
             @RequestBody UpdateMovieDto updateMovieDto
             ){
-        return new ResponseEntity<>(movieService.update(id, updateMovieDto), HttpStatus.OK);
+        return movieService.update(id, updateMovieDto).map(
+                ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Delete a movie")
