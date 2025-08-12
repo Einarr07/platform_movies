@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,7 @@ public class MovieController {
     public ResponseEntity<MovieDto> updateMovie(
             @Parameter(description = "Movie updated", required = true)
             @PathVariable long id,
-            @RequestBody UpdateMovieDto updateMovieDto
+            @RequestBody @Valid UpdateMovieDto updateMovieDto
             ){
         return movieService.update(id, updateMovieDto).map(
                 ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
