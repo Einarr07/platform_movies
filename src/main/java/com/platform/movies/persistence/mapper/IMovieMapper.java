@@ -1,9 +1,12 @@
 package com.platform.movies.persistence.mapper;
 
 import com.platform.movies.domain.dto.MovieDto;
+import com.platform.movies.domain.dto.UpdateMovieDto;
 import com.platform.movies.persistence.entity.MovieEntity;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -18,5 +21,16 @@ public interface IMovieMapper {
     @Mapping(source = "estado", target = "state", qualifiedByName = "stringToBoolean")
     MovieDto toDto(MovieEntity movieEntity);
     List<MovieDto> toDto(Iterable<MovieEntity> movieEntities);
+
+    @InheritInverseConfiguration
+    @Mapping(source = "genre", target = "genero", qualifiedByName = "genreToString")
+    @Mapping(source = "state", target = "estado", qualifiedByName = "booleanToString")
+    MovieEntity toEntity(MovieDto movieDto);
+
+    @Mapping(target = "titulo", source = "title")
+    @Mapping(target = "fechaEstreno", source = "releaseDate")
+    @Mapping(target = "estado", source = "state", qualifiedByName = "booleanToString")
+    @Mapping(target = "clasificacion", source = "rating")
+    void updateEntityFromDto(UpdateMovieDto updateMovieDto, @MappingTarget MovieEntity movieEntity);
 }
 

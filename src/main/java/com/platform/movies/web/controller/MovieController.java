@@ -1,6 +1,7 @@
 package com.platform.movies.web.controller;
 
 import com.platform.movies.domain.dto.MovieDto;
+import com.platform.movies.domain.dto.UpdateMovieDto;
 import com.platform.movies.domain.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,10 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,5 +43,44 @@ public class MovieController {
     ) {
         return movieService.findById(id).map(movieDto -> new ResponseEntity<>(movieDto, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
+    @Operation(summary = "Save a movie")
+    @ApiResponse(responseCode = "201", description = "Movie created")
+    @PostMapping
+    public ResponseEntity<MovieDto> add(
+            @Parameter(description = "Movie save", required = true)
+            @RequestBody MovieDto movieDto
+    ) {
+        return new ResponseEntity<>(movieService.save(movieDto), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update a movie")
+    @ApiResponse(responseCode = "200", description = "Movie update")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MovieDto> updateMovie(
+            @Parameter(description = "Movie updated", required = true)
+            @PathVariable long id,
+            @RequestBody UpdateMovieDto updateMovieDto
+            ){
+        return new ResponseEntity<>(movieService.update(id, updateMovieDto), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Delete a movie")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Movie delete"),
+            @ApiResponse(responseCode = "404", description = "Movie not found")
+    })
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMovie(
+            @Parameter(description = "Id the movie for delete", example = "2", required = true)
+            @PathVariable long id
+    ) {
+        if (movieService.deleteById(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
