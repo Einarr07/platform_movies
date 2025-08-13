@@ -6,6 +6,7 @@ import com.platform.movies.domain.exception.MovieDontExistsExeption;
 import com.platform.movies.domain.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,10 +33,10 @@ public class MovieController {
         return ResponseEntity.ok(movieService.findAll());
     }
 
-    @Operation(summary = "Get one movie")
+    @Operation(summary = "Get one movie", description = "Return the movie what coinicidence with send id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Movie not exist")
+            @ApiResponse(responseCode = "404", description = "Movie not exist", content = @Content)
     })
     @GetMapping("/{id}")
     public ResponseEntity<MovieDto> getMovie(
